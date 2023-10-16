@@ -1,0 +1,24 @@
+{% extends "base.njk" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+    <ul>
+        {% for item in items %}
+            <li>{{ item.name }}</li>
+        {% endfor %}
+    </ul>
+
+    {% markdown %}
+        # Inline Markdown
+        ## It works!
+        text<br>
+        ** test **
+    {% endmarkdown %}
+
+    <div>
+        {{ markdown | safe }}
+    </div>
+
+    {# <a href="{{ "/blog" | langUrl(req.lang) }}">{{ "goToBlog" | translate(req.lang) }}</a> #}
+{% endblock %}

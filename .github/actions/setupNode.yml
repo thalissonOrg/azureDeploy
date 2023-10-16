@@ -1,0 +1,49 @@
+name: 'Cloud Pipeline'
+description: 'Cloud Pipeline'
+inputs:
+  LANGUAGE_VERSION:
+    description: 'LANGUAGE_VERSION'
+    required: true  
+  AZURE_WEBAPP_PACKAGE_PATH:
+    description: 'AZURE_WEBAPP_PACKAGE_PATH'
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+      - name: Checkout
+        uses: actions/checkout@main
+
+      - name: Set up Node.js
+        uses: actions/setup-node@main
+        with:
+          node-version: ${{ inputs.LANGUAGE_VERSION }}
+          cache: 'npm'
+
+
+      - name: npm install
+        shell: bash
+        run: |
+          npm install
+      # - name: build entrypoint
+      #   shell: bash
+      #   run: |
+      #     if [[ -d "./entrypoint" && -f "./package.json" ]];
+      #     then
+      #     npm run build:ssr
+      #     fi
+      - name: run build
+        shell: bash
+        run: |
+          if [[ -f "./package.json" ]];
+          then
+          npm run build
+          fi
+
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@main
+        with:
+          name: build-artifact
+          path: .
+          retention-days: 1
