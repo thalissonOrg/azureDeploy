@@ -1,0 +1,92 @@
+name: Azure Web App Deployment
+
+on:
+  workflow_dispatch:
+    inputs:
+      moduleName:
+        description: 'Module Name'
+        required: true
+      moduleStack:
+        description: 'Module Stack'
+        required: true
+      environment:
+        description: 'Environment'
+        required: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set inputs as environment variables
+        run: |
+          echo "MODULE_NAME=${{ github.event.inputs.moduleName }}" >> $GITHUB_ENV
+          echo "MODULE_STACK=${{ github.event.inputs.moduleStack }}" >> $GITHUB_ENV
+          echo "ENVIRONMENT=${{ github.event.inputs.environment }}" >> $GITHUB_ENV
+        shell: bash
+
+      - name: Azure login
+        uses: azure/login@v1
+        with: 
+          creds: ${{ secrets.CREDENTIALS }}
+
+      - name: Select Azure subscription
+        run: az account set --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Get configuration file
+        id: get-config-file
+        run: |
+          # Check the module.stack variable and execute the appropriate deployment logic
+          case "${{ env.MODULE_STACK }}" in
+            node)
+              # Deployment logic for Node.js application
+              ;;
+            php)
+              # Deployment logic for PHP application
+              ;;
+            python)
+              # Deployment logic for Python application
+              if [ -f "service.${MODULE_NAME}/deploy/${ENVIRONMENT}/az/azure-config.json" ]; then
+                echo "::set-output name=CONFIG_PATH::service.${MODULE_NAME}/deploy/${ENVIRONMENT}/az/azure-config.json"
+              else
+                echo "Configuration file does not exist."
+                exit 1
+              fi
+              ;;
+            java)
+              # Deployment logic for Java application
+              ;;
+            netcore)
+              # Deployment logic for .NET Core application
+              ;;
+            netcore3)
+              # Deployment logic for .NET Core 3 application
+              ;;
+            *)
+              echo "Unsupported stack type: ${{ env.MODULE_STACK }}"
+              exit 1
+              ;;
+          esac
+
+      - name: Apply configuration file
+        uses: azure/appservice-settings@v1
+        with:
+          app-name: '${{ env.APPNAME }}' 
+          general-settings-json: ${{ steps.get-config-file.CONFIG_PATH }} #'General configuration settings as Key Value pairs'
+
+      - name: Zip files
+        run: |
+          cd service.${MODULE_NAME}
+          zip -r app.zip .
+        working-directory: ${{ github.workspace }}
+        shell: bash
+
+      - name: 'Run Azure webapp deploy action using publish profile credentials'
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: '${{ env.APPNAME }}' 
+          publish-profile: ${{ secrets.azureWebAppPublishProfile }}
+          package: ${{ github.workspace }}/app.zip
