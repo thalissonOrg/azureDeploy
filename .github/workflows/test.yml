@@ -88,3 +88,4 @@ jobs:
           app-name: '${{ secrets.APPNAME }}' 
           publish-profile: ${{ secrets.azureWebAppPublishProfile }}
           package: ${{ github.workspace }}/app.zip
+          resource-group-name: '${{ secrets.RESOURCE_GROUP }}' 
