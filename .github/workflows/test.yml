@@ -73,6 +73,7 @@ jobs:
         with:
           app-name: '${{ secrets.APPNAME }}' 
           app-settings-json: ${{ vars.SETTINGS }} #'General configuration settings as Key Value pairs'
+        continue-on-error: true
 
       - name: Zip files
         run: |
