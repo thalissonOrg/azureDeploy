@@ -72,7 +72,7 @@ jobs:
         uses: azure/appservice-settings@v1
         with:
           app-name: '${{ secrets.APPNAME }}' 
-          general-settings-json: ${{ steps.get-config-file.CONFIG_PATH }} #'General configuration settings as Key Value pairs'
+          app-settings-json: ${{ steps.get-config-file.CONFIG_PATH }} #'General configuration settings as Key Value pairs'
 
       - name: Zip files
         run: |
