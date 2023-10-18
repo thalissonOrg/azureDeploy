@@ -78,13 +78,13 @@ jobs:
       - name: Zip files
         run: |
           cd service.${MODULE_NAME}
-          zip -r app.zip .
+          zip -r ${{ github.workspace }}/app.zip .
         working-directory: ${{ github.workspace }}
         shell: bash
-
+      
       - name: 'Run Azure webapp deploy action using publish profile credentials'
         uses: azure/webapps-deploy@v2
         with:
           app-name: '${{ secrets.APPNAME }}' 
           publish-profile: ${{ secrets.azureWebAppPublishProfile }}
-          package: app.zip
+          package: ${{ github.workspace }}/app.zip
