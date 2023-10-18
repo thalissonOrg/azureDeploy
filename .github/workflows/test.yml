@@ -40,6 +40,13 @@ jobs:
           case "${{ env.MODULE_STACK }}" in
             node)
               # Deployment logic for Node.js application
+              if [ -f "service.${MODULE_NAME}/deploy/${ENVIRONMENT}/az/azure-config.json" ]; then
+                
+              echo "::set-output name=CONFIG_PATH::service.${MODULE_NAME}/deploy/${ENVIRONMENT}/az/azure-config.json"
+            else
+              echo "Configuration file does not exist."
+              exit 1
+            fi
               ;;
             php)
               # Deployment logic for PHP application
@@ -47,11 +54,13 @@ jobs:
             python)
               # Deployment logic for Python application
               if [ -f "service.${MODULE_NAME}/deploy/${ENVIRONMENT}/az/azure-config.json" ]; then
-                echo "::set-output name=CONFIG_PATH::service.${MODULE_NAME}/deploy/${ENVIRONMENT}/az/azure-config.json"
-              else
-                echo "Configuration file does not exist."
-                exit 1
-              fi
+              cd service.${MODULE_NAME}
+              zip -r ${{ github.workspace }}/app.zip .
+  
+            else
+              echo "Configuration file does not exist."
+              exit 1
+            fi
               ;;
             java)
               # Deployment logic for Java application
@@ -74,13 +83,6 @@ jobs:
           app-name: '${{ secrets.APPNAME }}' 
           app-settings-json: ${{ vars.SETTINGS }} #'General configuration settings as Key Value pairs'
         continue-on-error: true
-
-      - name: Zip files
-        run: |
-          cd service.${MODULE_NAME}
-          zip -r ${{ github.workspace }}/app.zip .
-        working-directory: ${{ github.workspace }}
-        shell: bash
       
       - name: 'Run Azure webapp deploy action using publish profile credentials'
         uses: azure/webapps-deploy@v2
