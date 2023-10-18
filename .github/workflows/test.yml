@@ -86,5 +86,4 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: '${{ secrets.APPNAME }}' 
-          publish-profile: ${{ secrets.azureWebAppPublishProfile }}
           package: ${{ github.workspace }}/app.zip
