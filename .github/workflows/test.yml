@@ -33,9 +33,6 @@ jobs:
         with: 
           creds: ${{ secrets.CREDENTIALS }}
 
-      - name: Select Azure subscription
-        run: az account set --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-
       - name: Get configuration file
         id: get-config-file
         run: |
