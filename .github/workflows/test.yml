@@ -78,10 +78,6 @@ jobs:
               ;;
           esac
 
-      - name: check for files
-        run: |
-         cd ${{ github.workspace }}
-         ls -la
 
       - name: Apply configuration file
         uses: azure/appservice-settings@v1
