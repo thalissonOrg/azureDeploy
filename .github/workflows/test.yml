@@ -81,7 +81,7 @@ jobs:
       - name: check for files
         run: |
          cd ${{ github.workspace }}
-         echo "ls -la"
+         ls -la
 
       - name: Apply configuration file
         uses: azure/appservice-settings@v1
