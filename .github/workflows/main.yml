@@ -28,6 +28,5 @@ jobs:
       uses: azure/webapps-deploy@v2
       with:
         app-name: 'python-test-thali'
-        package: ${{ github.workspace }}/app.zip
         resource-group-name: '${{ secrets.RESOURCE_GROUP }}' 
 
