@@ -82,7 +82,19 @@ jobs:
         uses: azure/appservice-settings@v1
         with:
           app-name: 'python-test-thali'
-          app-settings-json: ''
+          app-settings-json: |
+                  [
+                    {
+                      "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+                      "value": "$(Key)",
+                      "slotSetting": false
+                    },
+                    {
+                      "name": "MYSQL_DATABASE_NAME",
+                      "value": "$(DB_Name)", 
+                      "slotSetting": false
+                    }
+                  ]
 
       - name: Store app
         uses: actions/upload-artifact@v3
