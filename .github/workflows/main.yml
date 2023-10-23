@@ -16,13 +16,7 @@ jobs:
       with: 
         creds: ${{ secrets.CREDENTIALS }}
 
-    - name: 'Downlaod app zip'
-      uses: dawidd6/action-download-artifact@v2
-      with:
-        name: app
-        workflow: test.yml
-        github_token: ${{secrets.TOKEN}}
-        path: ${{ github.workspace }}
+   
 
     - name: 'Run Azure webapp deploy action using publish profile credentials'
       uses: azure/webapps-deploy@v2
