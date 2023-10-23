@@ -1,4 +1,4 @@
-name: Azure deployment
+name: Azure Web App Deployment
 
 on:
     workflow_dispatch:
