@@ -97,8 +97,11 @@ jobs:
                     }
                   ]
 
-      - name: Store app
-        uses: actions/upload-artifact@v3
+      - name: Azure CLI script
+        uses: azure/CLI@v1
         with:
-          name: app
-          path: ${{ github.workspace }}/app.zip
+          azcliversion: 2.30.0
+          inlineScript: |
+            az account show
+            az storage -h
+            az webapp deployment source config-zip --resource-group 'tschumaher' --name 'python-test-thali' --src ${{ github.workspace }}/app.zip --verbose
