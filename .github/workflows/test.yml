@@ -86,12 +86,12 @@ jobs:
                   [
                     {
                       "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
-                      "value": "$(Key)",
+                      "value": "test1",
                       "slotSetting": false
                     },
                     {
                       "name": "MYSQL_DATABASE_NAME",
-                      "value": "$(DB_Name)", 
+                      "value": "test2", 
                       "slotSetting": false
                     }
                   ]
