@@ -57,7 +57,7 @@ jobs:
                  cp -v service.${MODULE_NAME}/deploy/${ENVIRONMENT}/az/azure-config.json ${{ github.workspace }}/config.json
               cd service.${MODULE_NAME}
               zip -r ${{ github.workspace }}/app.zip .
-  
+             
             else
               echo "Configuration file does not exist."
               exit 1
@@ -77,6 +77,11 @@ jobs:
               exit 1
               ;;
           esac
+
+      - name: check for files
+        run: |
+         cd ${{ github.workspace }}
+         echo "ls -la"
 
       - name: Apply configuration file
         uses: azure/appservice-settings@v1
