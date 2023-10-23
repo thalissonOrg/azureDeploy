@@ -14,7 +14,7 @@ on:
         required: true
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -54,6 +54,7 @@ jobs:
             python)
               # Deployment logic for Python application
               if [ -f "service.${MODULE_NAME}/deploy/${ENVIRONMENT}/az/azure-config.json" ]; then
+                 cp -v service.${MODULE_NAME}/deploy/${ENVIRONMENT}/az/azure-config.json ${{ github.workspace }}/config.json
               cd service.${MODULE_NAME}
               zip -r ${{ github.workspace }}/app.zip .
   
@@ -80,14 +81,11 @@ jobs:
       - name: Apply configuration file
         uses: azure/appservice-settings@v1
         with:
-          app-name: '${{ secrets.APPNAME }}' 
-          app-settings-json: ${{ vars.SETTINGS }} #'General configuration settings as Key Value pairs'
-        continue-on-error: true
-      
-      - name: 'Run Azure webapp deploy action using publish profile credentials'
-        uses: azure/webapps-deploy@v2
+          app-name: 'python-test-thali'
+          app-settings-json: ${{ github.workspace }}/config.json
+
+      - name: Store app
+        uses: actions/upload-artifact@v3
         with:
-          app-name: '${{ secrets.APPNAME }}' 
-          publish-profile: ${{ secrets.azureWebAppPublishProfile }}
-          package: ${{ github.workspace }}/app.zip
-          resource-group-name: '${{ secrets.RESOURCE_GROUP }}' 
+          name: app
+          path: ${{ github.workspace }}/app.zip

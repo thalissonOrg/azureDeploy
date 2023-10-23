@@ -1,23 +1,32 @@
-name: Azure deployment test
+name: Azure deployment
 
 on:
     workflow_dispatch:
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
     steps:
     # checkout the repo
-    - name: 'Checkout Github Action' 
-      uses: actions/checkout@master
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-    - name: Setup Node 10.x
-      uses: actions/setup-node@v1
+    - name: Azure login
+      uses: azure/login@v1
+      with: 
+        creds: ${{ secrets.CREDENTIALS }}
+
+    - name: 'Downlaod app zip'
+      uses: actions/download-artifact@v3
       with:
-        node-version: '10.x'
+        name: app
+        path: ${{ github.workspace }}
 
     - name: 'Run Azure webapp deploy action using publish profile credentials'
       uses: azure/webapps-deploy@v2
       with:
-        app-name: node-rn-thali
+        app-name: 'python-test-thali'
         publish-profile: ${{ secrets.azureWebAppPublishProfile }}
+        package: ${{ github.workspace }}/app.zip
+        resource-group-name: '${{ secrets.RESOURCE_GROUP }}' 
+
