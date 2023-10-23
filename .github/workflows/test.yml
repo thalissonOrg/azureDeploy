@@ -82,7 +82,7 @@ jobs:
         uses: azure/appservice-settings@v1
         with:
           app-name: 'python-test-thali'
-          app-settings-json: ${{ github.workspace }}/config.json
+          app-settings-json: ''
 
       - name: Store app
         uses: actions/upload-artifact@v3
