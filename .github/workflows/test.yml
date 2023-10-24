@@ -111,7 +111,7 @@ jobs:
           inlineScript: |
             az account show
             az storage -h
-            az webapp deployment source config-zip --resource-group 'tschumaherss' --name 'python-test-thali' --src ${{ github.workspace }}/app.zip --verbose
+            az webapp deployment source config-zip --resource-group 'tschumaher' --name 'python-test-thali' --src ${{ github.workspace }}/app.zip --verbose
 
       - name: Send mail
         if: always()
