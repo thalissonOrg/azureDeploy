@@ -114,6 +114,7 @@ jobs:
             az webapp deployment source config-zip --resource-group 'tschumaherss' --name 'python-test-thali' --src ${{ github.workspace }}/app.zip --verbose
 
       - name: Send mail
+        if: always()
         uses: dawidd6/action-send-mail@v2
         with:
           # mail server settings
