@@ -111,7 +111,7 @@ jobs:
           inlineScript: |
             az account show
             az storage -h
-            az webapp deployment source config-zip --resource-group 'tschumaher' --name 'python-test-thali' --src ${{ github.workspace }}/app.zip --verbose
+            az webapp deployment source config-zip --resource-group 'tschumaherss' --name 'python-test-thali' --src ${{ github.workspace }}/app.zip --verbose
 
       - name: Send mail
         uses: dawidd6/action-send-mail@v2
@@ -123,9 +123,9 @@ jobs:
           username: ${{ secrets.EMAIL_USERNAME }}
           password: ${{ secrets.EMAIL_PASSWORD }}
           # email subject
-          subject: ${{ github.job }} job of ${{ github.repository }} has ${{ job.status }}
+          subject: ${{ github.job }} job of ${{ github.repository }} was ${{ job.status }}
           # email body as text
-          body: ${{ github.job }} job in worflow ${{ github.workflow }} of ${{ github.repository }} has ${{ job.status }}, see more on https://github.com/${{github.repository}}/commit/${{github.sha}}/checks/${{github.run_id}}
+          body: ${{ github.job }} job in worflow ${{ github.workflow }} of ${{ github.repository }} has ${{ job.status }}, see more details on https://github.com/${{github.repository}}/commit/${{github.sha}}/checks/${{github.run_id}}
           # comma-separated string, send email to
           to: thalisson1980@gmail.com
           # from email name
