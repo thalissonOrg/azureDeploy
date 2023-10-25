@@ -16,8 +16,8 @@ if from_email is None or to_email is None or message is None or password is None
 
 # Create an email message
 msg = email.message.Message()
-msg.set_payload(message)
-msg['Subject'] = subject
+msg.set_payload(subject)
+msg['Subject'] = message
 
 
 server = smtplib.SMTP('smtp.gmail.com', 587)
