@@ -9,11 +9,6 @@ to_email = os.environ.get('TO_EMAIL')
 message = os.environ.get('MESSAGE')
 subject = os.environ.get('SUBJECT')
 
-
-if from_email is None or to_email is None or message is None or password is None:
-    print("Please set the environment variables: FROM_EMAIL, TO_EMAIL, EMAIL_MESSAGE, and EMAIL_PASSWORD")
-    exit(1)
-
 # Create an email message
 msg = email.message.Message()
 msg.set_payload(subject)
