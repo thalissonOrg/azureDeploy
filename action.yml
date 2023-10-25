@@ -30,10 +30,10 @@ runs:
 
       - name: execute py script # run main.py
         env:
-          TO_EMAIL: ${{ github.event.inputs.to }}
-          MESSAGE: ${{ github.event.inputs.message }}
           EMAIL_USERNAME: ${{ github.event.inputs.username }}
           EMAIL_PASSWORD: ${{ github.event.inputs.password }}
+          TO_EMAIL: ${{ github.event.inputs.to }}
+          MESSAGE: ${{ github.event.inputs.message }}
         run: python mailSender.py
         shell: bash
      
