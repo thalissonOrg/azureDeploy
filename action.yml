@@ -1,15 +1,15 @@
-  name: Azure Web App Email
+name: Azure Web App Email
 
 
-  inputs:
-      username:
-        required: true
-      password:
-        required: true
-      to:
-        required: true
-      message:
-        required: true
+inputs:
+  username:
+    required: true
+  password:
+    required: true
+  to:
+    required: true
+  message:
+    required: true
 
 runs:
   using: 'composite'
