@@ -27,16 +27,16 @@ runs:
           python -m pip install --upgrade pip
           echo teste1
           echo "teste2"
-          echo "${{ github.event.inputs.message }}""
+          echo ${{ inputs.message }}
         shell: bash
           
 
       - name: execute py script # run main.py
         env:
-          EMAIL_USERNAME: ${{ github.event.inputs.username }}
-          EMAIL_PASSWORD: ${{ github.event.inputs.password }}
-          TO_EMAIL: ${{ github.event.inputs.to }}
-          MESSAGE: ${{ github.event.inputs.message }}
+          EMAIL_USERNAME: ${{ inputs.username }}
+          EMAIL_PASSWORD: ${{ inputs.password }}
+          TO_EMAIL: ${{ ginputs.to }}
+          MESSAGE: ${{ inputs.message }}
         run: python mailSender.py
         shell: bash
      
