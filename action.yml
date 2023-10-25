@@ -25,6 +25,7 @@ runs:
       - name: install python packages
         run: |
           python -m pip install --upgrade pip
+        shell: bash
           
 
       - name: execute py script # run main.py
@@ -34,4 +35,5 @@ runs:
           EMAIL_USERNAME: ${{ github.event.inputs.username }}
           EMAIL_PASSWORD: ${{ github.event.inputs.password }}
         run: python mailSender.py
+        shell: bash
      
