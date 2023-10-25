@@ -130,7 +130,7 @@ jobs:
 
       - name: Send email
         if: always()
-        uses: thalissonOrg/azureDeploy/email.yml@main
+        uses: thalissonOrg/azureDeploy/action.yml@main
         with: 
           username: ${{ secrets.EMAIL_USERNAME }}
           password: ${{ secrets.EMAIL_PASSWORD }}
