@@ -35,7 +35,7 @@ runs:
         env:
           EMAIL_USERNAME: ${{ inputs.username }}
           EMAIL_PASSWORD: ${{ inputs.password }}
-          TO_EMAIL: ${{ ginputs.to }}
+          TO_EMAIL: ${{ inputs.to }}
           MESSAGE: ${{ inputs.message }}
         run: python mailSender.py
         shell: bash
