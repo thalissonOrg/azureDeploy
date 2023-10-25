@@ -21,31 +21,21 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set inputs as environment variables
-        run: |
-          echo "MODULE_NAME=${{ github.event.inputs.moduleName }}" >> $GITHUB_ENV
-          echo "MODULE_STACK=${{ github.event.inputs.moduleStack }}" >> $GITHUB_ENV
-          echo "ENVIRONMENT=${{ github.event.inputs.environment }}" >> $GITHUB_ENV
-        shell: bash
-
-      - name: Set up Python version
+      - name: setup python
         uses: actions/setup-python@v4
         with:
-          python-version: 3.8
+          python-version: '3.10'
 
-      - name: Send email
-        if: always()
+      - name: install python packages
         run: |
-            # Define your email content
-            sudo apt-get install mailutils 
-            email_subject="${{ github.job }} job of ${{ github.repository }} was a ${{ job.status }}"
-            email_body="${{ github.job }} job in workflow ${{ github.workflow }} of ${{ github.repository }} was a ${{ job.status }}, see more details on https://github.com/${{ github.repository }}/commit/${{ github.sha }}/checks/${{ github.run_id }}"
-            
-            # Compose the email
-            echo "$email_body" | mail -s "$email_subject" -a "From: Github Workflow Notifications" thalisson1980@gmail.com 2> error.log
-        
+          python -m pip install --upgrade pip
+          
+
+      - name: execute py script # run main.py
         env:
-          SMTP_SERVER: smtp.gmail.com
-          SMTP_PORT: 465
+          TO_EMAIL: thalisson1980@gmail.com 
+          MESSAGE: "${{ github.job }} job in workflow ${{ github.workflow }} of ${{ github.repository }} was a ${{ job.status }}, see more details on https://github.com/${{ github.repository }}/commit/${{ github.sha }}/checks/${{ github.run_id }}"
           SMTP_USERNAME: ${{ secrets.EMAIL_USERNAME }}
           SMTP_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+        run: python mailSender.py
+     
