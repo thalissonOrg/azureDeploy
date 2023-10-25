@@ -134,5 +134,7 @@ jobs:
         with: 
           username: ${{ secrets.EMAIL_USERNAME }}
           password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: "Result of ${{ github.workflow }} Workflow on ${{ github.repository }}"
           to: thalisson1980@gmail.com 
           message: ${{ github.job }} job in workflow ${{ github.workflow }} of ${{ github.repository }} was a ${{ job.status }}, see more details on https://github.com/${{ github.repository }}/commit/${{ github.sha }}/checks/${{ github.run_id }}
+
