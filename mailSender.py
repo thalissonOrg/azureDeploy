@@ -7,6 +7,7 @@ from_email = os.environ.get('EMAIL_USERNAME')
 password = os.environ.get('EMAIL_PASSWORD')
 to_email = os.environ.get('TO_EMAIL')
 message = os.environ.get('MESSAGE')
+subject = os.environ.get('SUBJECT')
 
 
 if from_email is None or to_email is None or message is None or password is None:
@@ -16,6 +17,8 @@ if from_email is None or to_email is None or message is None or password is None
 # Create an email message
 msg = email.message.Message()
 msg.set_payload(message)
+msg['Subject'] = subject
+
 
 server = smtplib.SMTP('smtp.gmail.com', 587)
 server.ehlo()

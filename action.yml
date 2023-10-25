@@ -8,6 +8,8 @@ inputs:
     required: true
   to:
     required: true
+  subject:
+    required: true
   message:
     required: true
 
@@ -25,9 +27,6 @@ runs:
       - name: install python packages
         run: |
           python -m pip install --upgrade pip
-          echo teste1
-          echo "teste2"
-          echo ${{ inputs.message }}
         shell: bash
           
 
@@ -36,7 +35,8 @@ runs:
           EMAIL_USERNAME: ${{ inputs.username }}
           EMAIL_PASSWORD: ${{ inputs.password }}
           TO_EMAIL: ${{ inputs.to }}
-          MESSAGE: ${{ inputs.message }}
+          SUBJECT: ${{ inputs.message }}
+          MESSAGE: ${{ inputs.subject }}
         run: python mailSender.py
         shell: bash
      
