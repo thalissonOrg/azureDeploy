@@ -5,7 +5,7 @@ import os
 from_email = os.environ.get('EMAIL_USERNAME')
 password = os.environ.get('EMAIL_PASSWORD')
 to_email = os.environ.get('TO_EMAIL')
-message = os.environ.get('MESSAGE')
+message = 'teste'
 
 
 server = smtplib.SMTP('smtp.gmail.com', 587)
