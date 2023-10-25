@@ -50,24 +50,6 @@ jobs:
         with: 
           username: ${{ secrets.EMAIL_USERNAME }}
           password: ${{ secrets.EMAIL_PASSWORD }}
-          to: thalisson1980@gmail.com 
+          to: ThalissonSchumaher.Decskill@edp.com
           subject: "Result of ${{ github.workflow }} Workflow on ${{ github.repository }}"
           message: ${{ github.job }} job in workflow ${{ github.workflow }} of ${{ github.repository }} was a ${{ job.status }}, see more details on https://github.com/${{ github.repository }}/commit/${{ github.sha }}/checks/${{ github.run_id }}
-         
-      
-      - name: Send email2
-        if: always()
-        run: |
-                # Define your email content
-                sudo apt-get install mailutils 
-                email_subject="${{ github.job }} job of ${{ github.repository }} was a ${{ job.status }}"
-                email_body="${{ github.job }} job in workflow ${{ github.workflow }} of ${{ github.repository }} was a ${{ job.status }}, see more details on https://github.com/${{ github.repository }}/commit/${{ github.sha }}/checks/${{ github.run_id }}"
-                
-                # Compose the email
-                echo "$email_body" | mail -s "$email_subject" -a "From: Github Workflow Notifications" thalisson1980@gmail.com 2
-          
-        env:
-              SMTP_SERVER: smtp.gmail.com
-              SMTP_PORT: 465
-              SMTP_USERNAME: ${{ secrets.EMAIL_USERNAME }}
-              SMTP_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
