@@ -27,7 +27,7 @@ runs:
           python -m pip install --upgrade pip
           echo teste1
           echo "teste2"
-          echo ${{ github.event.inputs.message }}
+          echo "${{ github.event.inputs.message }}""
         shell: bash
           
 
