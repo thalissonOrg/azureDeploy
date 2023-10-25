@@ -25,6 +25,7 @@ runs:
       - name: install python packages
         run: |
           python -m pip install --upgrade pip
+          echo teste
           echo ${{ github.event.inputs.message }}
         shell: bash
           
