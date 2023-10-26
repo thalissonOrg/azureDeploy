@@ -72,7 +72,7 @@ jobs:
                  cp -v service.${MODULE_NAME}/deploy/${ENVIRONMENT}/az/azure-config.json ${{ github.workspace }}/config.json
               cd service.${MODULE_NAME}
               zip -r ${{ github.workspace }}/app.zip .
-             
+              ls -la
             else
               echo "Configuration file does not exist."
               exit 1
@@ -117,24 +117,4 @@ jobs:
         with:
           name: app
           path: ${{ github.workspace }}/app.zip
-
-
-      - name: Azure CLI script
-        uses: azure/CLI@v1
-        with:
-          azcliversion: 2.30.0
-          inlineScript: |
-            az account show
-            az storage -h
-            az webapp deployment source config-zip --resource-group 'tschumaher' --name 'python-test-thali' --src ${{ github.workspace }}/app.zip --verbose
-
-      - name: Send email
-        if: always()
-        uses: thalissonOrg/azureDeploy@main
-        with: 
-          username: ${{ secrets.EMAIL_USERNAME }}
-          password: ${{ secrets.EMAIL_PASSWORD }}
-          subject: "Result of ${{ github.workflow }} Workflow on ${{ github.repository }}"
-          to: thalisson1980@gmail.com 
-          message: ${{ github.job }} job in workflow ${{ github.workflow }} of ${{ github.repository }} was a ${{ job.status }}, see more details on https://github.com/${{ github.repository }}/commit/${{ github.sha }}/checks/${{ github.run_id }}
 
