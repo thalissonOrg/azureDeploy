@@ -36,4 +36,4 @@ runs:
       with:
         app-name: ${{ inputs.app_name }} 
         resource-group-name: ${{ inputs.resource_group }}
-        package: ${{ github.workspace }}/${{ inputs.artifact_name }}
+        package: ${{ github.workspace }}/${{ inputs.artifact_name }}.zip
