@@ -15,7 +15,7 @@ inputs:
   artifact_name:
     required: true
 
- runs:
+runs:
     using: 'composite'
     steps:
     - name: Azure login
