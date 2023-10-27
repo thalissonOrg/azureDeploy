@@ -1,4 +1,4 @@
-name: Azure Web App Configuration
+name: Azure-WebApp-Build
 
 on:
   workflow_dispatch:
