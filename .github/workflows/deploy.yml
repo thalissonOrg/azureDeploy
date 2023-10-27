@@ -18,5 +18,6 @@ jobs:
         resource_group: ${{ secrets.RESOURCE_GROUP }}
         credentials: ${{ secrets.CREDENTIALS }}
         artifact_name: app
-        artifact_workflow: Azure-WebApp-Build
+        artifact_workflow: .github/workflows/build.yml
         token: ${{ secrets.TOKEN }}
+
