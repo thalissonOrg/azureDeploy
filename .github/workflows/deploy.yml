@@ -14,8 +14,8 @@ jobs:
     - name: 'Call deploy action'
       uses: thalissonOrg/azureDeploy@main
       with:
-        app-name: 'python-test-thali'
-        resource-group-name: ${{ secrets.RESOURCE_GROUP }}
+        app_name: 'python-test-thali'
+        resource_group: ${{ secrets.RESOURCE_GROUP }}
         credentials: ${{ secrets.CREDENTIALS }}
         artifact_name: app
         artifact_workflow: Azure Web App Configuration
