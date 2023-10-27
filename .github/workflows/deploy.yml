@@ -20,4 +20,3 @@ jobs:
         artifact_name: app
         artifact_workflow: .github/workflows/build.yml
         token: ${{ secrets.TOKEN }}
-
