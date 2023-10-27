@@ -27,7 +27,6 @@ runs:
       uses: Legit-Labs/action-download-artifact@v2
       with:
         workflow: ${{ inputs.artifact_workflow }}
-        github_token: ${{ inputs.token }}
 
     - name: Run Azure webapp deploy action
       uses: azure/webapps-deploy@v2
