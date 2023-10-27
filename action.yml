@@ -14,6 +14,10 @@ inputs:
     required: true
   artifact_name:
     required: true
+  package_type:
+    required: false
+    default: .zip
+    description: Default value is .zip
 
 runs:
     using: 'composite'
@@ -36,4 +40,4 @@ runs:
       with:
         app-name: ${{ inputs.app_name }} 
         resource-group-name: ${{ inputs.resource_group }}
-        package: ${{ github.workspace }}/${{ inputs.artifact_name }}.zip
+        package: ${{ github.workspace }}/${{ inputs.artifact_name }}${{ inputs.package_type }}
