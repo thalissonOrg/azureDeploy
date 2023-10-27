@@ -11,22 +11,12 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Azure login
-      uses: azure/login@v1
-      with: 
-        creds: ${{ secrets.CREDENTIALS }}
-
-    - name: 'Downlaod app zip'
-      uses: Legit-Labs/action-download-artifact@v2
-      with:
-        name: app
-        workflow: test.yml
-        github_token: ${{secrets.TOKEN}}
-        path: ${{ github.workspace }}
-
-    - name: 'Run Azure webapp deploy action using publish profile credentials'
-      uses: azure/webapps-deploy@v2
+    - name: 'Call deploy action'
+      uses: thalissonOrg/azureDeploy@main
       with:
         app-name: 'python-test-thali'
-        resource-group-name: '${{ secrets.RESOURCE_GROUP }}' 
-
+        resource-group-name: ${{ secrets.RESOURCE_GROUP }}
+        credentials: ${{ secrets.CREDENTIALS }}
+        artifact_name: app
+        artifact_workflow: Azure Web App Configuration
+        token: ${{ secrets.TOKEN }}

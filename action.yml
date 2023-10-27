@@ -1,0 +1,39 @@
+name: Azure Web App Deployment
+
+
+inputs:
+  app_name:
+    required: true
+  credentials:
+    required: true
+  token:
+    required: true
+  resource_group:
+    required: true
+  artifact_workflow:
+    required: true
+  artifact_name:
+    required: true
+
+ runs:
+    using: 'composite'
+    steps:
+    - name: Azure login
+      uses: azure/login@v1
+      with: 
+        creds: ${{ inputs.credentials }}
+
+    - name: Downlaod artifact
+      uses: Legit-Labs/action-download-artifact@v2
+      with:
+        name: ${{ inputs.artifact_name }}
+        workflow: ${{ inputs.artifact_workflow }}
+        github_token: ${{ inputs.credentials }}
+        path: ${{ github.workspace }}
+
+    - name: Run Azure webapp deploy action
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: ${{ inputs.app_name }} 
+        resource-group-name: ${{ inputs.resource_group }}
+
