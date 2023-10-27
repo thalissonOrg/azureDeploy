@@ -18,5 +18,5 @@ jobs:
         resource_group: ${{ secrets.RESOURCE_GROUP }}
         credentials: ${{ secrets.CREDENTIALS }}
         artifact_name: app
-        artifact_workflow: Azure Web App Configuration
+        artifact_workflow: Azure Web App Configuratasdasion
         token: ${{ secrets.TOKEN }}
