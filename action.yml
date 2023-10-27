@@ -24,12 +24,11 @@ runs:
         creds: ${{ inputs.credentials }}
 
     - name: Downlaod artifact
-      uses: Legit-Labs/action-download-artifact@v2
+      uses: Legit-Labs/action-download-artifact@v2.18.0
       with:
         name: ${{ inputs.artifact_name }}
         workflow: ${{ inputs.artifact_workflow }}
         github_token: ${{ inputs.token }}
-        path: ${{ github.workspace }}
 
     - name: Run Azure webapp deploy action
       uses: azure/webapps-deploy@v2
