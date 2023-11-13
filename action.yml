@@ -20,10 +20,10 @@ inputs:
     description: Default value is .zip
 
 env:
-  WEBAPP: python-test-thali
-  GROUP: tschumaher
-  ACCOUNT: app_storage_account  # Does not have to exist, this will be created for you
-  CONTAINER:  app_storage_container
+  WEBAPP: 'python-test-thali'
+  GROUP: 'tschumaher'
+  ACCOUNT: 'app_storage_account'  # Does not have to exist, this will be created for you
+  CONTAINER:  'app_storage_container'
   EXPIRY_TIME: 10 minutes
 
 runs:
