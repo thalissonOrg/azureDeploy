@@ -18,11 +18,12 @@ inputs:
     required: false
     default: .zip
     description: Default value is .zip
+  storage_account:
+    required: true
 
 env:
   WEBAPP: 'python-test-thali'
-  GROUP: 'tschumaher'
-  STORAGE_ACCOUNT: 'app_storage_account'  # Does not have to exist, this will be created for you
+  GROUP: 'tschumaher' # Does not have to exist, this will be created for you
   CONTAINER:  'app_storage_container'
   EXPIRY: 10 minutes
   RESOURCE_GROUP: tschumaher
@@ -54,8 +55,8 @@ runs:
         azcliversion: 2.19.1
         inlineScript: |
           ls -l
-          az storage blob upload --account-name app_storage_account -c $CONTAINER -f app.zip
-          APP_URL=$(az storage blob generate-sas --full-uri --permissions r --expiry $EXPIRY --account-name $STORAGE_ACCOUNT -c $CONTAINER -n app.zip | xargs)
+          az storage blob upload --account-name ${{ inputs.storage_account }} -c $CONTAINER -f app.zip
+          APP_URL=$(az storage blob generate-sas --full-uri --permissions r --expiry $EXPIRY --account-name ${{ inputs.storage_account }} -c $CONTAINER -n app.zip | xargs)
           az rest --method PUT \
                   --uri https://management.azure.com/subscriptions/${SUBSCRIPTION}/resourceGroups/${RESOURCE_GROUP}/providers/Microsoft.Web/sites/${WEBAPP}/extensions/onedeploy?api-version=2020-12-01 \
                   --body '{ 
