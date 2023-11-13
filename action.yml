@@ -19,6 +19,13 @@ inputs:
     default: .zip
     description: Default value is .zip
 
+env:
+  WEBAPP: python-test-thali
+  GROUP: tschumaher
+  ACCOUNT: app_storage_account  # Does not have to exist, this will be created for you
+  CONTAINER:  app_storage_container
+  EXPIRY_TIME: 10 minutes
+
 runs:
     using: 'composite'
     steps:
@@ -35,9 +42,22 @@ runs:
         github_token: ${{ inputs.token }}
         path: ${{ github.workspace }}
 
-    - name: Run Azure webapp deploy action
-      uses: azure/webapps-deploy@v2
+    - name: Set SAS token expiration
+      run: echo "expiry=`date -u -d "$EXPIRY_TIME" '+%Y-%m-%dT%H:%MZ'`" >> $GITHUB_ENV
+
+    - name: Azure CLI script
+      uses: azure/CLI@v1
       with:
-        app-name: ${{ inputs.app_name }} 
-        resource-group-name: ${{ inputs.resource_group }}
-        package: ${{ github.workspace }}/${{ inputs.artifact_name }}${{ inputs.package_type }}
+        azcliversion: 2.19.1
+        inlineScript: |
+          az extension add --name webapp
+
+          az storage account create   -n $ACCOUNT   -g $GROUP -l westus
+          az storage container create -n $CONTAINER --account-name $ACCOUNT
+          az storage blob upload      -f app.zip    --account-name $ACCOUNT -c $CONTAINER -n $ACCOUNT
+
+          ZIP_URL=$(az storage blob generate-sas --full-uri --permissions r --expiry ${{ env.expiry }} --account-name $ACCOUNT -c $CONTAINER -n $ACCOUNT | xargs)
+
+          az webapp deploy --name $WEBAPP --resource-group $GROUP --type zip --src-url  $ZIP_URL --async false
+
+          az storage container delete -n $CONTAINER --account-name $ACCOUNT 
