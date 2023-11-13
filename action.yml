@@ -20,16 +20,18 @@ inputs:
     description: Default value is .zip
   storage_account:
     required: true
+  container:
+    required: true
+  subscription:
+    required: true
+
+
 
 env:
-  WEBAPP: 'python-test-thali'
-  GROUP: 'tschumaher' # Does not have to exist, this will be created for you
-  CONTAINER:  'app_storage_container'
   EXPIRY: 10 minutes
-  RESOURCE_GROUP: tschumaher
-  SUBSCRIPTION: 030c7dc2-36f4-4344-b31d-fae06c275516
 
 runs:
+
     using: 'composite'
     steps:
     - name: Azure login
@@ -55,10 +57,10 @@ runs:
         azcliversion: 2.19.1
         inlineScript: |
           ls -l
-          az storage blob upload --account-name ${{ inputs.storage_account }} -c $CONTAINER -f app.zip
-          APP_URL=$(az storage blob generate-sas --full-uri --permissions r --expiry $EXPIRY --account-name ${{ inputs.storage_account }} -c $CONTAINER -n app.zip | xargs)
+          az storage blob upload --account-name ${{ inputs.storage_account }} -c ${{ inputs.container }} -f app.zip
+          APP_URL=$(az storage blob generate-sas --full-uri --permissions r --expiry ${{env.EXPIRY}} --account-name ${{ inputs.storage_account }} -c ${{ inputs.container }} -n app.zip | xargs)
           az rest --method PUT \
-                  --uri https://management.azure.com/subscriptions/${SUBSCRIPTION}/resourceGroups/${RESOURCE_GROUP}/providers/Microsoft.Web/sites/${WEBAPP}/extensions/onedeploy?api-version=2020-12-01 \
+                  --uri https://management.azure.com/subscriptions/${{ inputs.subscription }}/resourceGroups/${{ inputs.resource_group }}/providers/Microsoft.Web/sites/${{ inputs.app_name }}/extensions/onedeploy?api-version=2020-12-01 \
                   --body '{ 
                       "properties": { 
                           "properties": {

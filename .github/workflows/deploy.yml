@@ -21,3 +21,5 @@ jobs:
         artifact_workflow: .github/workflows/build.yml
         token: ${{ secrets.TOKEN }}
         storage_account: 'storage_account'
+        container: 'storage_container'
+        subscription: 030c7dc2-36f4-4344-b31d-fae06c275516
