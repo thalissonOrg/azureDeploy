@@ -56,6 +56,10 @@ runs:
       with:
         azcliversion: 2.19.1
         inlineScript: |
+          az extension add --name webapp
+
+          az storage account create   -n ${{ inputs.storage_account }}   -g ${{ inputs.resource_group }} -l eastus
+          az storage container create -n ${{ inputs.container }} --account-name ${{ inputs.storage_account }}
           az storage blob upload --account-name ${{ inputs.storage_account }} -c ${{ inputs.container }} -f app.zip --type block --name myblob
           APP_URL=$(az storage blob generate-sas --full-uri --permissions r --expiry ${{env.EXPIRY}} --account-name ${{ inputs.storage_account }} -c ${{ inputs.container }} -n "myblob" | xargs)
           az rest --method PUT \
@@ -68,3 +72,4 @@ runs:
                           "type": "zip"
                       }
                   }'
+          az storage container delete -n ${{ inputs.container }} --account-name ${{ inputs.storage_account }} 
