@@ -53,7 +53,8 @@ runs:
       with:
         azcliversion: 2.19.1
         inlineScript: |
-          az storage blob upload --account-name $STORAGE_ACCOUNT -c $CONTAINER -f app.zip
+          ls -l
+          az storage blob upload --account-name app_storage_account -c $CONTAINER -f app.zip
           APP_URL=$(az storage blob generate-sas --full-uri --permissions r --expiry $EXPIRY --account-name $STORAGE_ACCOUNT -c $CONTAINER -n app.zip | xargs)
           az rest --method PUT \
                   --uri https://management.azure.com/subscriptions/${SUBSCRIPTION}/resourceGroups/${RESOURCE_GROUP}/providers/Microsoft.Web/sites/${WEBAPP}/extensions/onedeploy?api-version=2020-12-01 \
